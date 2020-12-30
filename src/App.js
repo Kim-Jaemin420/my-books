@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+
+// pages
+import Error from './pages/Error';
+import Signin from './pages/Signin';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+
+// redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ErrorBoundary FallbackComponent={Error}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/signin" component={Signin} />
+            <Route path="/" exact component={Home} />
+            <Route component={NotFound} />
+          </Switch>
+        </BrowserRouter>
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

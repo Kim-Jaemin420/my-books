@@ -1,0 +1,6 @@
+body {
+  background-color: palevioletred;
+  display: flex;
+  box-sizing: border-box;
+}
+.content:not()
