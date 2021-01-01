@@ -2,21 +2,29 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { sleep } from '../utils';
 
+// loading 아이콘
+import { LoadingOutlined } from "@ant-design/icons";
+
 
 class BookList extends Component {
   state = {
     books: [],
+    loading: false,
   };
 
   render() {
-    const { books } = this.state;
+    const { books, loading } = this.state;
 
 
     return (
       <div>
-        {books.map(book => (
-          <li>{book.title}</li>
-        ))}
+        <h1>Book List {loading && <LoadingOutlined />}</h1>
+        {books.length === 0 && <p>데이터가 없습니다.</p>}
+        {books.length !== 0 && (<ul>
+          {books.map(book => (
+            <li>{book.title}</li>
+          ))}
+        </ul>)}
       </div>
     );
   }
@@ -24,6 +32,9 @@ class BookList extends Component {
 
 
   async componentDidMount() {
+    this.setState({ loading: true });
+
+    await sleep(2000);
     // 최초 렌더링시 서버에 책 리스트 요청한다.
     try {
       const response = await axios.get('https://api.marktube.tv/v1/book', {
@@ -32,8 +43,10 @@ class BookList extends Component {
         }
       });
       console.log(response.data);
-      await sleep(2000);
-      this.setState({ books: response.data });
+      this.setState({
+        books: response.data,
+        loading: false,
+      });
 
     } catch (error) {
       console.log(error);
