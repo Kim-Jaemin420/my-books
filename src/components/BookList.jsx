@@ -1,43 +1,44 @@
-import React, { useEffect } from 'react';
-import { LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
-import BookItem from './BookItem';
-import Header from './Header';
-import { GlobalStyle } from '../style/GlobalStyle';
+import React, { Component } from 'react';
+import axios from "axios";
 
-export default function BookList({ books, loading, error, getBooks }) {
-  useEffect(() => {
-    getBooks();
-  }, [getBooks]);
 
-  if (error !== null) {
-    const errorType = error.response.data.error;
+class BookList extends Component {
+  state = {
+    books: [],
+  };
 
-    if (errorType === 'INVALID_TOKEN') {
-      return (
-        <div>
-          <h1>Book List {loading && <LoadingOutlined />}</h1>
-          <p>
-            유효하지 않은 토큰 입니다.{' '}
-            <Button
-              shape="circle"
-              icon={<ReloadOutlined />}
-              onClick={this.getBooks}
-            />
-          </p>
-        </div>
-      );
-    }
+  render() {
+    const { books } = this.state;
+
+
+    return (
+      <div>
+        <h1>Book List</h1>
+      </div>
+    );
   }
 
-  return (
-    <>
-      <GlobalStyle />
-      {<Header>Jaime'S Library{loading && <LoadingOutlined />}</Header>}
-      {books.length === 0 && <p>데이터가 없습니다.</p>}
-      <div className="content">
-        {books.length !== 0 && books.map((book, i) => <BookItem {...book} index={i} />)}
-      </div>
-    </>
-  );
+
+
+  async componentDidMount() {
+    // 최초 렌더링시 서버에 책 리스트 요청한다.
+    try {
+      const response = await axios.get('https://api.marktube.tv/v1/book', {
+        headers: {
+          Authorization: `Bearer ${this.props.token}`,
+        }
+      });
+      console.log(response);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    /* 받아온 책 리스트를 렌더한다. => props 혹은 state 변경
+       여기서는 props를 변경할 수 없으니 state로 관리하겠다.
+    */
+  }
+
 }
+
+export default BookList;
