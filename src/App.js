@@ -8,21 +8,21 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
 // redux
-import { Provider } from 'react-redux';
-import store from './redux/store';
+// import { Provider } from 'react-redux';
+// import store from './redux/store';
 
 function App() {
   return (
     <ErrorBoundary FallbackComponent={Error}>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/signin" component={Signin} />
-            <Route path="/" exact component={Home} />
-            <Route component={NotFound} />
-          </Switch>
-        </BrowserRouter>
-      </Provider>
+      {/* <Provider store={store}> */}
+      <BrowserRouter>
+        <Switch>
+          <Route path="/signin" component={Signin} />
+          <Route path="/" exact component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+      {/* </Provider> */}
     </ErrorBoundary>
   );
 }
