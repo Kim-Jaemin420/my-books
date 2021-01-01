@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import { sleep } from '../utils';
 
 
 class BookList extends Component {
@@ -13,7 +14,9 @@ class BookList extends Component {
 
     return (
       <div>
-        <h1>Book List</h1>
+        {books.map(book => (
+          <li>{book.title}</li>
+        ))}
       </div>
     );
   }
@@ -28,7 +31,9 @@ class BookList extends Component {
           Authorization: `Bearer ${this.props.token}`,
         }
       });
-      console.log(response);
+      console.log(response.data);
+      await sleep(2000);
+      this.setState({ books: response.data });
 
     } catch (error) {
       console.log(error);
