@@ -1,12 +1,16 @@
 import withToken from '../hocs/withToken';
 import { Redirect } from 'react-router-dom';
-import BookListContainer from '../containers/BookListContainer';
+import BookList from '../components/BookList';
 
 function Home({ token }) {
 
   if (token === null) <Redirect to="/signin" />;
 
-  return (<BookListContainer token={token} />);
+  return (
+    <div>
+      <BookList token={token} />
+    </div>
+  );
 };
 
 export default withToken(Home);
