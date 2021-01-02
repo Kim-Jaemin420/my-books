@@ -5,6 +5,7 @@ import { Button } from "antd";
 
 // loading 아이콘
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
+import BookItem from './BookItem';
 
 
 class BookList extends Component {
@@ -46,7 +47,7 @@ class BookList extends Component {
         {books.length === 0 && <p>데이터가 없습니다.</p>}
         {books.length !== 0 && (<ul>
           {books.map(book => (
-            <li>{book.title}</li>
+            <BookItem {...books} />
           ))}
         </ul>)}
       </div>
