@@ -54,13 +54,13 @@ class BookList extends Component {
   }
 
 
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-
-    await sleep(2000);
+  getBooks = async () => {
     // 최초 렌더링시 서버에 책 리스트 요청한다.
     try {
+      this.setState({ loading: true });
+
+      await sleep(2000);
+
       const response = await axios.get('https://api.marktube.tv/v1/book', {
         headers: {
           Authorization: `Bearer ${this.props.token}`,
@@ -76,10 +76,15 @@ class BookList extends Component {
       console.log(error);
       this.setState({ loading: false, error })
     }
+  };
 
-    /* 받아온 책 리스트를 렌더한다. => props 혹은 state 변경
-       여기서는 props를 변경할 수 없으니 state로 관리하겠다.
-    */
+  async componentDidMount() {
+    await this.getBooks();
+  }
+
+  reload = async () => {
+    this.setState({ error: null });
+    await this.getBooks();
   }
 
 }
