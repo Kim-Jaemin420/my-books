@@ -1,19 +1,43 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { sleep } from '../utils';
+import { Button } from "antd";
 
 // loading 아이콘
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 
 
 class BookList extends Component {
   state = {
     books: [],
     loading: false,
+    error: null,
   };
 
   render() {
-    const { books, loading } = this.state;
+    const { books, loading, error } = this.state;
+
+    // error 객체가 어디 담겨있는지 확인하기 위한 콘솔로그
+    console.log(error.response.data);
+
+    if (error !== null) {
+      const errorType = error.response.data.error;
+
+      if (errorType !== 'INVALID_TOKEN') {
+        return (
+          <div>
+            <h1>Book List {loading && <LoadingOutlined />}</h1>
+            <p>유효하지 않은 토큰입니다.
+              <Button
+                shape="circle"
+                icon={<ReloadOutlined />}
+                onClick={this.reload}
+              />
+            </p>
+          </div>
+        );
+      }
+    }
 
 
     return (
@@ -50,6 +74,7 @@ class BookList extends Component {
 
     } catch (error) {
       console.log(error);
+      this.setState({ loading: false, error })
     }
 
     /* 받아온 책 리스트를 렌더한다. => props 혹은 state 변경
