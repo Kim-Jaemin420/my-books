@@ -30,7 +30,7 @@ class BookList extends Component {
               <Button
                 shape="circle"
                 icon={<ReloadOutlined />}
-                onClick={this.reload}
+                onClick={this.getBooks()}
               />
             </p>
           </div>
@@ -53,13 +53,11 @@ class BookList extends Component {
 
 
   getBooks = async () => {
-    // 최초 렌더링시 서버에 책 리스트 요청한다.
-
     // 원래는 하나의 액션만 날려서 몇 초 있다가 성공했는지 확인하고 싶지만
     // 리듀서는 순수함수라서 비동기 작업을 할 수 없다.
     // 따라서 각각의 액션을 분리해줘야 한다.
     try {
-      this.setState({ loading: true });
+      this.props.startBooks();
 
       await sleep(2000);
 
@@ -68,28 +66,19 @@ class BookList extends Component {
           Authorization: `Bearer ${this.props.token}`,
         }
       });
-      console.log(response.data);
-      this.setState({
-        loading: false,
-      });
+
       // 리덕스한테 books: response.data를 넣어줘야 한다.
-      this.props.setBooks(response.data);
+      this.props.successBooks(response.data);
 
     } catch (error) {
       console.log(error);
-      this.setState({ loading: false, error })
+      this.props.failBooks(error);
     }
   };
 
   async componentDidMount() {
     await this.getBooks();
   }
-
-  reload = async () => {
-    this.setState({ error: null });
-    await this.getBooks();
-  }
-
 }
 
 export default BookList;
