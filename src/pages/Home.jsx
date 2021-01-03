@@ -1,6 +1,6 @@
 import withToken from '../hocs/withToken';
 import { Redirect } from 'react-router-dom';
-import BookList from '../components/BookList';
+import BookListContainer from '../containers/BookListContainer';
 
 function Home({ token }) {
 
@@ -8,7 +8,7 @@ function Home({ token }) {
 
   return (
     <div>
-      <BookList token={token} />
+      <BookListContainer token={token} />
     </div>
   );
 };
