@@ -3,6 +3,9 @@ import axios from "axios";
 import { sleep } from '../utils';
 import { Button } from "antd";
 
+import Header from "./Header";
+import { GlobalStyle } from "../style/GlobalStyle";
+
 // loading 아이콘
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import BookItem from './BookItem';
@@ -42,15 +45,14 @@ class BookList extends Component {
 
 
     return (
-      <div>
-        <h1>Book List {loading && <LoadingOutlined />}</h1>
-        {books.length === 0 && <p>데이터가 없습니다.</p>}
-        {books.length !== 0 && (<ul>
-          {books.map(book => (
-            <BookItem {...book} />
-          ))}
-        </ul>)}
+      <>
+      <GlobalStyle />
+      {<Header>Jaime'S Library{loading && <LoadingOutlined />}</Header>}
+      {books.length === 0 && <p>데이터가 없습니다.</p>}
+      <div className="content">
+        {books.length !== 0 && books.map((book, i) => <BookItem {...book} index={i} />)}
       </div>
+    </>
     );
   }
 
