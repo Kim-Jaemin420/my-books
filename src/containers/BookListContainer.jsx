@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BookList from '../components/BookList';
-import { bookSuccess } from '../redux/actions';
+import { bookFail, bookStart, bookSuccess } from '../redux/actions';
 
 const BookListContainer = ({token}) => {
   // redux와의 연결고리
@@ -12,11 +12,29 @@ const BookListContainer = ({token}) => {
   // api로 받은 books response data를 리덕스에게 dispatch
   const dispatch = useDispatch();
   
-  const setBooks = useCallback(books => {
+  const successBooks = useCallback(books => {
     dispatch(bookSuccess(books))},
     [dispatch]);
 
-  return <BookList token={token} books={books} loading={loading} error={error} setBooks={setBooks}/>;
+  const startBooks = useCallback(() => {
+    dispatch(bookStart())},
+    [dispatch]);
+  
+    const failBooks = useCallback((error) => {
+      dispatch(bookFail(error))},
+      [dispatch]);
+
+  return (
+    <BookList 
+    token={token} 
+    books={books} 
+    loading={loading} 
+    error={error} 
+    successBooks={successBooks}
+    startBooks={startBooks}
+    failBooks={failBooks}
+    />
+  );
 };
 
 export default BookListContainer;
