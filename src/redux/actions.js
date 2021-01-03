@@ -1,4 +1,4 @@
-// 전체 스테이트 구조 : {books: {books: []}, auth: {}, ...}
+// 전체 스테이트 구조 : {books: {books: [], loading: false, error: null}, auth: {}, ...}
 // books 와 auth를 따로 만들어서 combine
 
 // action types
