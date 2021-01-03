@@ -12,15 +12,9 @@ import BookItem from './BookItem';
 
 
 class BookList extends Component {
-  state = {
-    loading: false,
-    error: null,
-  };
-
   render() {
-    const { loading, error } = this.state;
     // BookListContainer가 props를 통해 books 전달
-    const {books} = this.props;
+    const { books, loading, error } = this.props;
 
     // error 객체가 어디 담겨있는지 확인하기 위한 콘솔로그
     // console.log(error.response.data);
@@ -60,6 +54,10 @@ class BookList extends Component {
 
   getBooks = async () => {
     // 최초 렌더링시 서버에 책 리스트 요청한다.
+
+    // 원래는 하나의 액션만 날려서 몇 초 있다가 성공했는지 확인하고 싶지만
+    // 리듀서는 순수함수라서 비동기 작업을 할 수 없다.
+    // 따라서 각각의 액션을 분리해줘야 한다.
     try {
       this.setState({ loading: true });
 
