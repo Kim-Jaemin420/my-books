@@ -13,13 +13,14 @@ import BookItem from './BookItem';
 
 class BookList extends Component {
   state = {
-    books: [],
     loading: false,
     error: null,
   };
 
   render() {
-    const { books, loading, error } = this.state;
+    const { loading, error } = this.state;
+    // BookListContainer가 props를 통해 books 전달
+    const {books} = this.props;
 
     // error 객체가 어디 담겨있는지 확인하기 위한 콘솔로그
     // console.log(error.response.data);
@@ -71,9 +72,10 @@ class BookList extends Component {
       });
       console.log(response.data);
       this.setState({
-        books: response.data,
         loading: false,
       });
+      // 리덕스한테 books: response.data를 넣어줘야 한다.
+      this.props.setBooks(response.data);
 
     } catch (error) {
       console.log(error);
