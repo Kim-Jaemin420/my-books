@@ -19,7 +19,7 @@ class BookList extends Component {
     const { books, loading, error } = this.state;
 
     // error 객체가 어디 담겨있는지 확인하기 위한 콘솔로그
-    console.log(error.response.data);
+    // console.log(error.response.data);
 
     if (error !== null) {
       const errorType = error.response.data.error;
@@ -47,7 +47,7 @@ class BookList extends Component {
         {books.length === 0 && <p>데이터가 없습니다.</p>}
         {books.length !== 0 && (<ul>
           {books.map(book => (
-            <BookItem {...books} />
+            <BookItem {...book} />
           ))}
         </ul>)}
       </div>
