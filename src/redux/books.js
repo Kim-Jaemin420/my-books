@@ -1,4 +1,4 @@
-import { BOOK_ERROR, BOOK_START, BOOK_SUCCESS } from './actions';
+import { BOOK_FAIL, BOOK_START, BOOK_SUCCESS } from './actions';
 
 const initialState = { books: [], loading: false, error: null };
 
@@ -10,7 +10,7 @@ export default function books(prevState = initialState, action) {
       return { books: action.books, loading: false, error: null };
     case BOOK_START:
       return { ...prevState, loading: true, error: null };
-    case BOOK_ERROR:
+    case BOOK_FAIL:
       return { ...prevState, loading: false, error: action.books.error };
     default:
       return prevState;
