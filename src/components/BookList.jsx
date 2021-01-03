@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import axios from "axios";
-import { sleep } from '../utils';
 import { Button } from "antd";
 
 import Header from "./Header";
@@ -11,31 +9,11 @@ import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import BookItem from './BookItem';
 
 
-function BookList({ books, loading, error, startBooks, successBooks, failBooks, token }) {
+function BookList({ books, loading, error, getBooks }) {
 
   useEffect(() => {
-    async function getBooks() {
-      try {
-        startBooks();
-  
-        await sleep(2000);
-  
-        const response = await axios.get('https://api.marktube.tv/v1/book', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        });
-  
-        successBooks(response.data);
-  
-      } catch (error) {
-        console.log(error);
-        failBooks(error);
-      }
-    };
-
     getBooks();
-  }, [startBooks, successBooks, failBooks, token]);
+  }, [getBooks]);
 
     if (error !== null) {
       const errorType = error.response.data.error;
