@@ -26,7 +26,7 @@ function BookList({ books, loading, error, getBooks }) {
               <Button
                 shape="circle"
                 icon={<ReloadOutlined />}
-                onClick={this.getBooks()}
+                onClick={getBooks}
               />
             </p>
           </div>
