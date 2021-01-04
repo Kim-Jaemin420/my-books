@@ -1,6 +1,7 @@
 import Signin from '../components/Signin';
 import { Redirect } from 'react-router-dom';
 import withToken from '../hocs/withToken';
+import SigninContainer from '../containers/SigninContainer';
 
 function SigninPage(props) {
   // path => 데이터 바꿔서 무언가 처리할 때 여기서
@@ -13,7 +14,7 @@ function SigninPage(props) {
     return <Redirect to="/" />
   }
 
-  return (<Signin />);
+  return (<SigninContainer />);
 };
 
 export default withToken(SigninPage);
