@@ -1,21 +1,19 @@
 import React from 'react';
 import { Row, Col, Input, Button } from 'antd';
 import styles from './Signin.module.css';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
-import { sleep } from '../utils';
 
 // class 컴포넌트에서 사용하는 createRef 함수
 class Signin extends React.Component {
   _password = React.createRef();
 
+  // email과 pw 부분은 뷰의 담당이라고 생각해서 리듀서로 가지 않음
   state = {
     email: '',
-    loading: false,
   };
 
   render() {
-    const { email, loading } = this.state;
+    const { email } = this.state;
+    const { loading } = this.props;
 
     console.log(email);
     const isEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(email);
@@ -86,48 +84,32 @@ class Signin extends React.Component {
     );
   }
 
-  click = async () => {
+  click = () => {
     const { email } = this.state;
     const password = this._password.current.input.value;
     console.log('clicked', email, password);
 
-    try {
-      this.setState({ loading: true });
-      // 호출 시작 => 로딩 시작
-      const response = await axios.post('https://api.marktube.tv/v1/me', {
-        email,
-        password,
-      });
-      // sleep
-      await sleep(1000);
+    // this.props.signin(email, password);
+    
+    /*
+     이제 로그인이 완료되면 페이지를 이동해야 하는데,
+     페이지를 옮기는 방법은,
+     1. Link 사용(react-router-dom)
+     2. withRouter가 주는 history 이용
 
-      console.log(response.data.token);
-      // 토큰을 브라우저 어딘가에 저장해야 한다.
-      localStorage.setItem('token', response.data.token);
-      // 페이지를 이동한다.
-      this.props.history.push('/');
+     그런데, this.props.signin은 비동기적인 일이다. 
+     따라서 디스패치가 날아가는 도중에 주소를 변경하는 일이 발생할 수 있다.
 
-
-      // 호출 완료 (정상) => 로딩 끝
-      this.setState({ loading: false });
-    } catch (error) {
-      // 호출 완료 (에러) => 로딩 끝
-      this.setState({ loading: false });
-      console.log(error);
-    }
-
-    // 서버에 이메일, 패스워드 보내서 인증된 사용자인지 체크해야 된다.
-    // axios.post('https://api.marktube.tv/v1/me', {
-    //   email,
-    //   password,
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-
-    //   }).catch((error) => {
-    //     console.log(error);
-
-    //   });
+     이럴때는 두 가지 방법이 있다.
+     1. hitory를 리덕스로 보내는 방식
+     2. react router와 리덕스를 합치는 방식
+    */
+    
+    // 1. history를 리덕스로 보내는 방식 => 번거롭다. 리덕스 로직과 history로직을 합쳐주는 과정이
+    //  this.props.signin(email, password, this.props.history)
+    // thunk에서 제공해주는 방식이 있다.
+    // thunk 미들웨어를 생성할 때 history를 내장할 수 있다. => create로 가서 변경해보자!
+    this.props.signin(email, password)
   };
 
   change = (e) => {
@@ -135,5 +117,5 @@ class Signin extends React.Component {
   };
 }
 
-export default withRouter(Signin);
+export default Signin;
 

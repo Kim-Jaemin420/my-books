@@ -1,19 +1,15 @@
-import Signin from '../components/Signin';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import withToken from '../hocs/withToken';
+import SigninContainer from '../containers/SigninContainer';
 
 function SigninPage(props) {
-  // path => 데이터 바꿔서 무언가 처리할 때 여기서
-  // auth 인증 처리 같은것 여기서
-  console.log(props); // {unrelated, token}
-
-  const { token } = props;
+  const token = useSelector(state => state.auth.token);
 
   if (token !== null) {
     return <Redirect to="/" />
   }
 
-  return (<Signin />);
+  return (<SigninContainer />);
 };
 
-export default withToken(SigninPage);
+export default SigninPage;
