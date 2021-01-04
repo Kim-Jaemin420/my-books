@@ -7,8 +7,8 @@ const SigninContainer = () => {
   const loading = useSelector(state => state.auth.loading);
   const error = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
-  const signin = useCallback((email, password, history) => {
-    dispatch(singinThunk(email, password, history));
+  const signin = useCallback((email, password) => {
+    dispatch(singinThunk(email, password));
    }, [dispatch])
 
   return <Signin loading={loading} error={error} signin={signin} />;

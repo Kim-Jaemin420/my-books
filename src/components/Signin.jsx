@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Input, Button } from 'antd';
 import styles from './Signin.module.css';
-import { withRouter } from 'react-router-dom';
 
 // class 컴포넌트에서 사용하는 createRef 함수
 class Signin extends React.Component {
@@ -96,7 +95,7 @@ class Signin extends React.Component {
      이제 로그인이 완료되면 페이지를 이동해야 하는데,
      페이지를 옮기는 방법은,
      1. Link 사용(react-router-dom)
-     2. withRounter가 주는 history 이용
+     2. withRouter가 주는 history 이용
 
      그런데, this.props.signin은 비동기적인 일이다. 
      따라서 디스패치가 날아가는 도중에 주소를 변경하는 일이 발생할 수 있다.
@@ -106,8 +105,11 @@ class Signin extends React.Component {
      2. react router와 리덕스를 합치는 방식
     */
     
-    // 1. history를 리덕스로 보내는 방식
-    this.props.signin(email, password, this.props.history)
+    // 1. history를 리덕스로 보내는 방식 => 번거롭다. 리덕스 로직과 history로직을 합쳐주는 과정이
+    //  this.props.signin(email, password, this.props.history)
+    // thunk에서 제공해주는 방식이 있다.
+    // thunk 미들웨어를 생성할 때 history를 내장할 수 있다. => create로 가서 변경해보자!
+    this.props.signin(email, password)
   };
 
   change = (e) => {
@@ -115,5 +117,5 @@ class Signin extends React.Component {
   };
 }
 
-export default withRouter(Signin);
+export default Signin;
 
