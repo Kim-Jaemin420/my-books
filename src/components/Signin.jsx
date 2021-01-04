@@ -7,13 +7,14 @@ import { withRouter } from 'react-router-dom';
 class Signin extends React.Component {
   _password = React.createRef();
 
+  // email과 pw 부분은 뷰의 담당이라고 생각해서 리듀서로 가지 않음
   state = {
     email: '',
-    loading: false,
   };
 
   render() {
-    const { email, loading } = this.state;
+    const { email } = this.state;
+    const { loading } = this.props;
 
     console.log(email);
     const isEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(email);
@@ -84,12 +85,29 @@ class Signin extends React.Component {
     );
   }
 
-  click = async () => {
+  click = () => {
     const { email } = this.state;
     const password = this._password.current.input.value;
     console.log('clicked', email, password);
 
-    this.props.signin(email, password);
+    // this.props.signin(email, password);
+    
+    /*
+     이제 로그인이 완료되면 페이지를 이동해야 하는데,
+     페이지를 옮기는 방법은,
+     1. Link 사용(react-router-dom)
+     2. withRounter가 주는 history 이용
+
+     그런데, this.props.signin은 비동기적인 일이다. 
+     따라서 디스패치가 날아가는 도중에 주소를 변경하는 일이 발생할 수 있다.
+
+     이럴때는 두 가지 방법이 있다.
+     1. hitory를 리덕스로 보내는 방식
+     2. react router와 리덕스를 합치는 방식
+    */
+    
+    // 1. history를 리덕스로 보내는 방식
+    this.props.signin(email, password, this.props.history)
   };
 
   change = (e) => {

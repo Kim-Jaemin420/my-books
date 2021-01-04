@@ -32,7 +32,10 @@ export const signinSuccess = (token) => ({ type: SUCCESS, token });
 export const signinFail = (error) => ({ type: FAIL, error });
 
 // thunk
-export const singinThunk = (email, password) => async (dispatch, getState) => {
+export const singinThunk = (email, password, history) => async (
+  dispatch,
+  getState,
+) => {
   try {
     dispatch(signinStart());
     const response = await axios.post('https://api.marktube.tv/v1/me', {
@@ -46,6 +49,9 @@ export const singinThunk = (email, password) => async (dispatch, getState) => {
     localStorage.setItem('token', token);
 
     dispatch(signinSuccess(token));
+
+    // 페이지 이동
+    history.push('/');
   } catch (error) {
     console.log(error);
     dispatch(signinFail(error));
