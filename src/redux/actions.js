@@ -39,3 +39,15 @@ export const getBooksThunk = (token) => async (dispatch, getState) => {
     dispatch(bookFail(error));
   }
 };
+
+// redux promise middleware
+export const BOOKS = 'BOOKS';
+// promise middleware를 사용하면 BOOK이라는 변수를
+// 자동으로 BOOK_PENDING, BOOK_FULFILLED, BOOK_REJECTED라는 이름으로 변환된다.
+// 그리고 이 변환된 변수를 사용해서 reducer를 작성해주면 된다.
+
+export const getBooksPromise = (token) => ({
+  // 액션 객체
+  type: BOOKS,
+  payload: BookService.getBooks(token),
+});
