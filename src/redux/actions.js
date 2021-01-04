@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { sleep } from '../utils';
+
 // 전체 스테이트 구조 : {books: {books: [], loading: false, error: null}, auth: {}, ...}
 // books 와 auth를 따로 만들어서 combine
 
@@ -7,16 +10,36 @@ export const BOOK_START = 'BOOK_START';
 export const BOOK_FAIL = 'BOOK_FAIL';
 
 // action creators
-export const bookSuccess = (books) => ({
+const bookSuccess = (books) => ({
   type: BOOK_SUCCESS,
   books,
 });
 
-export const bookStart = () => ({
+const bookStart = () => ({
   type: BOOK_START,
 });
 
-export const bookFail = (error) => ({
+const bookFail = (error) => ({
   type: BOOK_FAIL,
   error,
 });
+
+// thunk
+export const getBooksThunk = (token) => async (dispatch, getState) => {
+  try {
+    dispatch(bookStart());
+
+    await sleep(2000);
+
+    const response = await axios.get('https://api.marktube.tv/v1/book', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch(bookSuccess(response.data));
+  } catch (error) {
+    console.log(error);
+    dispatch(bookFail(error));
+  }
+};
