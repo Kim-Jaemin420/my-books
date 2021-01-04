@@ -1,4 +1,4 @@
-import axios from 'axios';
+import BookService from '../services/BookService';
 import { sleep } from '../utils';
 
 // 전체 스테이트 구조 : {books: {books: [], loading: false, error: null}, auth: {}, ...}
@@ -31,13 +31,9 @@ export const getBooksThunk = (token) => async (dispatch, getState) => {
 
     await sleep(2000);
 
-    const response = await axios.get('https://api.marktube.tv/v1/book', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const books = await BookService.getBooks(token);
 
-    dispatch(bookSuccess(response.data));
+    dispatch(bookSuccess(books));
   } catch (error) {
     console.log(error);
     dispatch(bookFail(error));
