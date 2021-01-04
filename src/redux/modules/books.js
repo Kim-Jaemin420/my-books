@@ -42,11 +42,13 @@ const bookFail = (error) => ({
 });
 
 // thunk
-export const getBooksThunk = (token) => async (dispatch, getState) => {
+export const getBooksThunk = () => async (dispatch, getState) => {
   try {
     dispatch(bookStart());
 
     await sleep(2000);
+
+    const token = getState().auth.token;
 
     const books = await BookService.getBooks(token);
 

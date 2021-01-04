@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BookList from '../components/BookList';
 import { getBooksThunk } from '../redux/modules/books';
 
-const BookListContainer = ({token}) => {
+const BookListContainer = () => {
   // redux와의 연결고리
   const books = useSelector(state => state.books.books);
   const loading = useSelector(state => state.books.loading);
@@ -13,13 +13,12 @@ const BookListContainer = ({token}) => {
   const dispatch = useDispatch();
 
   const getBooks = useCallback(async () => {
-      dispatch(getBooksThunk(token));
+      dispatch(getBooksThunk());
       // dispatch(getBooksPromise(token));
-    }, [dispatch, token])
+    }, [dispatch, ])
 
   return (
     <BookList 
-    token={token} 
     books={books} 
     loading={loading} 
     error={error} 
