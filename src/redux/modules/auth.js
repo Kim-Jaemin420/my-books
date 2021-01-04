@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AuthService from '../../services/AuthService';
 import { sleep } from '../../utils';
 
 // namespace
@@ -32,20 +33,17 @@ export const signinSuccess = (token) => ({ type: SUCCESS, token });
 export const signinFail = (error) => ({ type: FAIL, error });
 
 // thunk
-export const singinThunk = (email, password, history) => async (
+export const singinThunk = (email, password) => async (
   dispatch,
   getState,
+  history,
 ) => {
   try {
     dispatch(signinStart());
-    const response = await axios.post('https://api.marktube.tv/v1/me', {
-      email,
-      password,
-    });
+    const token = await AuthService(email, password);
 
     await sleep(1000);
 
-    const token = response.data.token;
     localStorage.setItem('token', token);
 
     dispatch(signinSuccess(token));
