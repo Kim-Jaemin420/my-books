@@ -20,7 +20,7 @@ export default function books(prevState = initialState, action) {
     case BOOK_START:
       return { ...prevState, loading: true, error: null };
     case BOOK_FAIL:
-      return { ...prevState, loading: false, error: action.books.error };
+      return { ...prevState, loading: false, error: action.error };
     default:
       return prevState;
   }
