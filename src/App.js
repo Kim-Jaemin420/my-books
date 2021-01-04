@@ -16,7 +16,7 @@ createBrowserHistory를 사용하면 생기는 문제
 BrowserRouter는 우리가 create한 history를 사용하지 않고
 자체적으로 history를 생성해서 그것을 사용한다.
 따라서 BrowserRouter 대신 Router를 사용하고 우리가 만든
-history를 props로 넘겨준다.
+history를 props로 넘겨준다.(Router에는 history가 없기 때문에 직접 주어야 한다.)
 */
 function App() {
   return (
