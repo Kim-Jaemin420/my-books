@@ -3,6 +3,9 @@ import axios from "axios";
 import { sleep } from '../utils';
 import { Button } from "antd";
 
+import Header from "./Header";
+import  { GlobalStyle }  from "../style/GlobalStyle";
+
 // loading 아이콘
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import BookItem from './BookItem';
@@ -17,9 +20,6 @@ class BookList extends Component {
 
   render() {
     const { books, loading, error } = this.state;
-
-    // error 객체가 어디 담겨있는지 확인하기 위한 콘솔로그
-    console.log(error.response.data);
 
     if (error !== null) {
       const errorType = error.response.data.error;
@@ -42,15 +42,14 @@ class BookList extends Component {
 
 
     return (
-      <div>
-        <h1>Book List {loading && <LoadingOutlined />}</h1>
-        {books.length === 0 && <p>데이터가 없습니다.</p>}
-        {books.length !== 0 && (<ul>
-          {books.map(book => (
-            <BookItem {...books} />
-          ))}
-        </ul>)}
+      <>
+      <GlobalStyle />
+      {<Header>Jaime'S Library{loading && <LoadingOutlined />}</Header>}
+      {books.length === 0 && <p>데이터가 없습니다.</p>}
+      <div className="content">
+        {books.length !== 0 && books.map((book, i) => <BookItem {...book} index={i} />)}
       </div>
+    </>
     );
   }
 
