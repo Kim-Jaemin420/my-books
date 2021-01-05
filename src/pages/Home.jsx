@@ -4,7 +4,9 @@ import BookList from '../components/BookList';
 
 function Home({ token }) {
 
-  if (token === null) <Redirect to="/signin" />;
+  if (token === null) {
+    <Redirect to="/signin" />;
+  }
 
   return (
     <div>
